@@ -6,15 +6,18 @@
     <title>$title$</title>
     <authors>Ralf Beckers</authors>
     <owners>Ralf Beckers</owners>
+	<projectUrl>https://github.com/Bassman2/WpfUsbMonitor</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>WPF implementation of a clipboard monitor to signal if the clipboard content has changed. This implementation if Forms free and can also be used by MVVM. Documentation, example code and source code included.</description>
+    <description>WPF implementation of a USB monitor to signal if a USB device is plugged in or out. This implementation if Forms free and can also be used by MVVM. Documentation included.</description>
     <releaseNotes>Creation.</releaseNotes>
     <copyright>Copyright Ralf Beckers 2017</copyright>
-    <tags>WPF Clipboard Monitor MVVM</tags>
+    <tags>WPF USB Monitor MVVM</tags>
+	<dependencies>
+      <group targetFramework=".NETFramework4.5" />
+	</dependencies>
   </metadata>
   <files>
-    <file src="WpfClipboardMonitorLicense.txt" target="content" />
-    <file src="..\WpfClipboardMonitorDocumentation\Help\WpfClipboardMonitor.chm" target="content" />
-    <file src="..\WpfClipboardMonitorCode.zip" target="content" />
+    <file src="WpfUsbMonitorLicense.txt" target="content" />
+    <file src="..\WpfUsbMonitorDocumentation\Help\WpfUsbMonitor.chm" target="content" />
   </files>
 </package>
