@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUsbMonitor", "WpfUsbMonitor\WpfUsbMonitor.csproj", "{64F9FA98-B57C-4AE0-9C31-A72F74FC2D51}"
+EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "WpfUsbMonitorDocumentation", "WpfUsbMonitorDocumentation\WpfUsbMonitorDocumentation.shfbproj", "{505B0644-89B7-424D-88BE-9949C6D6FF9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceCatcherEvent", "DeviceCatcherEvent\DeviceCatcherEvent.csproj", "{FE03FB5A-3906-4093-8645-16D98AA054FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceCatcherMember", "DeviceCatcherMember\DeviceCatcherMember.csproj", "{2A2D7ED9-B247-48CD-92E5-574ECC7CA87F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceCatcherMvvm", "DeviceCatcherMvvm\DeviceCatcherMvvm.csproj", "{373DFC1B-22F1-4356-A50E-C7F5C19DFF20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceCatcherOverride", "DeviceCatcherOverride\DeviceCatcherOverride.csproj", "{DC34D9F2-CF25-4A17-9738-34E6F5C18348}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64F9FA98-B57C-4AE0-9C31-A72F74FC2D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F9FA98-B57C-4AE0-9C31-A72F74FC2D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F9FA98-B57C-4AE0-9C31-A72F74FC2D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F9FA98-B57C-4AE0-9C31-A72F74FC2D51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{505B0644-89B7-424D-88BE-9949C6D6FF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{505B0644-89B7-424D-88BE-9949C6D6FF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{505B0644-89B7-424D-88BE-9949C6D6FF9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE03FB5A-3906-4093-8645-16D98AA054FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE03FB5A-3906-4093-8645-16D98AA054FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE03FB5A-3906-4093-8645-16D98AA054FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE03FB5A-3906-4093-8645-16D98AA054FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A2D7ED9-B247-48CD-92E5-574ECC7CA87F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A2D7ED9-B247-48CD-92E5-574ECC7CA87F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A2D7ED9-B247-48CD-92E5-574ECC7CA87F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A2D7ED9-B247-48CD-92E5-574ECC7CA87F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{373DFC1B-22F1-4356-A50E-C7F5C19DFF20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{373DFC1B-22F1-4356-A50E-C7F5C19DFF20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{373DFC1B-22F1-4356-A50E-C7F5C19DFF20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{373DFC1B-22F1-4356-A50E-C7F5C19DFF20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC34D9F2-CF25-4A17-9738-34E6F5C18348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC34D9F2-CF25-4A17-9738-34E6F5C18348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC34D9F2-CF25-4A17-9738-34E6F5C18348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC34D9F2-CF25-4A17-9738-34E6F5C18348}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B24BA9F-9377-457B-8AAC-401C665A64EC}
+	EndGlobalSection
+EndGlobal
