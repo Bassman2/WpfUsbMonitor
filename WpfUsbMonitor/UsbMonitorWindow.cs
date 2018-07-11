@@ -18,7 +18,12 @@ namespace WpfUsbMonitor
         private const int DEVICE_NOTIFY_WINDOW_HANDLE = 0x00000000;
         private const int DEVICE_NOTIFY_ALL_INTERFACE_CLASSES = 0x00000004;
 
+        private const int DBT_DEVTYP_OEM = 0x00000000;
+        private const int DBT_DEVTYP_VOLUME = 0x00000002;
+        private const int DBT_DEVTYP_PORT = 0x00000003;
         private const int DBT_DEVTYP_DEVICEINTERFACE = 0x00000005;
+        private const int DBT_DEVTYP_HANDLE = 0x00000006;
+        
 
         private const int DBT_DEVNODES_CHANGED = 0x0007;
         private const int DBT_DEVICEARRIVAL = 0x8000;
@@ -30,7 +35,9 @@ namespace WpfUsbMonitor
         private const int DBT_CUSTOMEVENT = 0x8006;
 
         private IntPtr windowHandle;
-        private IntPtr deviceEventHandle;
+        //private IntPtr deviceEventHandle;
+
+        private DeviceChangeManager deviceChangeManager = new DeviceChangeManager();
 
         /// <summary>
         /// Event for USB update
@@ -51,8 +58,8 @@ namespace WpfUsbMonitor
         {
             base.OnInitialized(e);
 
-            windowHandle = new WindowInteropHelper(this).EnsureHandle();
-            HwndSource.FromHwnd(windowHandle)?.AddHook(HwndHandler);
+            this.windowHandle = new WindowInteropHelper(this).EnsureHandle();
+            HwndSource.FromHwnd(this.windowHandle)?.AddHook(HwndHandler);
 
             if (this.UsbNotification)
             {
@@ -137,18 +144,24 @@ namespace WpfUsbMonitor
         /// </summary>
         public void Start()
         {
-            int size = Marshal.SizeOf(typeof(NativeMethods.DEV_BROADCAST_DEVICEINTERFACE));
-            var deviceInterface = new NativeMethods.DEV_BROADCAST_DEVICEINTERFACE();
-            deviceInterface.dbcc_size = size;
-            deviceInterface.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
-            IntPtr buffer = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(deviceInterface, buffer, true);
-            this.deviceEventHandle = NativeMethods.RegisterDeviceNotification(windowHandle, buffer, DEVICE_NOTIFY_WINDOW_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
-            if (deviceEventHandle == IntPtr.Zero)
-            {
-                int error = Marshal.GetLastWin32Error();
-            }
-            Marshal.FreeHGlobal(buffer);
+            this.deviceChangeManager.Register(this.windowHandle);
+            //int size = Marshal.SizeOf(typeof(NativeMethods.DEV_BROADCAST_DEVICEINTERFACE));
+
+            //var deviceInterface = new NativeMethods.DEV_BROADCAST_DEVICEINTERFACE();
+            //deviceInterface.dbcc_size = size;
+            //deviceInterface.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
+            //deviceInterface.dbcc_reserved = 0;
+            //deviceInterface.dbcc_classguid = new Guid().ToByteArray();
+
+            //IntPtr buffer = Marshal.AllocHGlobal(size);
+            //Marshal.StructureToPtr(deviceInterface, buffer, true);
+
+            //this.deviceEventHandle = NativeMethods.RegisterDeviceNotification(windowHandle, buffer, DEVICE_NOTIFY_WINDOW_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
+            //if (deviceEventHandle == IntPtr.Zero)
+            //{
+            //    int error = Marshal.GetLastWin32Error();
+            //}
+            //Marshal.FreeHGlobal(buffer);
         }
 
         /// <summary>
@@ -156,11 +169,12 @@ namespace WpfUsbMonitor
         /// </summary>
         public void Stop()
         {
-            if (deviceEventHandle != IntPtr.Zero)
-            {
-                NativeMethods.UnregisterDeviceNotification(deviceEventHandle);
-            }
-            deviceEventHandle = IntPtr.Zero;
+            this.deviceChangeManager.Unregister();
+            //if (deviceEventHandle != IntPtr.Zero)
+            //{
+            //    NativeMethods.UnregisterDeviceNotification(deviceEventHandle);
+            //}
+            //deviceEventHandle = IntPtr.Zero;
         }
 
         private IntPtr HwndHandler(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
@@ -170,6 +184,44 @@ namespace WpfUsbMonitor
                 switch (wparam.ToInt32())
                 {
                 case DBT_DEVICEARRIVAL:
+                case DBT_DEVICEQUERYREMOVE:
+                case DBT_DEVICEREMOVECOMPLETE:
+                    UsbEventArgs args = this.deviceChangeManager.OnDeviceChange(wparam, lparam);
+                    if (args != null)
+                    {
+                        // fire event
+                        this.UsbUpdate?.Invoke(this, args);
+                        // execute command
+                        if (this.UsbUpdateCommand?.CanExecute(args) ?? false)
+                        {
+                            this.UsbUpdateCommand?.Execute(args);
+                        }
+                        // call virtual method
+                        OnUsbUpdate(args);
+                    }
+                    break;
+
+                case DBT_DEVNODES_CHANGED:
+                    // fire event
+                    this.UsbChanged?.Invoke(this, new EventArgs());
+                    // execute command
+                    if (this.UsbChangedCommand?.CanExecute(null) ?? false)
+                    {
+                        this.UsbChangedCommand?.Execute(null);
+                    }
+                    // call virtual method
+                    OnUsbChanged();
+                    break;
+                }
+            
+
+                /*
+                switch (wparam.ToInt32())
+                {
+                case DBT_DEVICEARRIVAL:
+                    
+                        
+
                     if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
                     {
                         UsbEventArgs args = CreateUsbEventArgs(UsbDeviceAction.Arrival, lparam);
@@ -182,6 +234,10 @@ namespace WpfUsbMonitor
                         }
                         // call virtual method
                         OnUsbUpdate(args);
+                    }
+                    else
+                    {
+
                     }
                     break;
                 case DBT_DEVICEQUERYREMOVE:
@@ -198,6 +254,10 @@ namespace WpfUsbMonitor
                         // call virtual method
                         OnUsbUpdate(args);
                     }
+                    else
+                    {
+
+                    }
                     break;
                 case DBT_DEVICEREMOVECOMPLETE:
                     if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
@@ -212,6 +272,10 @@ namespace WpfUsbMonitor
                         }
                         // call virtual method
                         OnUsbUpdate(args);
+                    }
+                    else
+                    {
+
                     }
                     break;
                 case DBT_DEVNODES_CHANGED:
@@ -228,6 +292,7 @@ namespace WpfUsbMonitor
                         break;
                     }
                 }
+                */
             }
             handled = false;
             return IntPtr.Zero;
@@ -266,6 +331,16 @@ namespace WpfUsbMonitor
                 public byte[] dbcc_classguid;
                 [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
                 public char[] dbcc_name;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
+            public struct DEV_BROADCAST_VOLUME
+            {
+                public uint dbch_Size;
+                public uint dbch_Devicetype;
+                public uint dbch_Reserved;
+                public uint dbch_Unitmask;
+                public ushort dbch_Flags;
             }
 
             [DllImport("user32.dll", SetLastError = true)]

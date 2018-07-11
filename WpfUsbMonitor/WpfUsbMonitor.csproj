@@ -54,11 +54,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceChangeManager.cs" />
     <Compile Include="GuidAttribute.cs" />
     <Compile Include="UsbDeviceAction.cs" />
     <Compile Include="UsbDeviceClass.cs" />
     <Compile Include="UsbDeviceType.cs" />
     <Compile Include="UsbEventArgs.cs" />
+    <Compile Include="UsbEventVolumeArgs.cs" />
     <Compile Include="UsbMonitor.cs" />
     <Compile Include="UsbMonitorWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
