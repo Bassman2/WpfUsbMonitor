@@ -65,6 +65,7 @@
     <Compile Include="UsbEventOemArgs.cs" />
     <Compile Include="UsbEventPortArgs.cs" />
     <Compile Include="UsbEventVolumeArgs.cs" />
+    <Compile Include="UsbDeviceInterface.cs" />
     <Compile Include="UsbMonitor.cs" />
     <Compile Include="UsbMonitorWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
