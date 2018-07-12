@@ -256,6 +256,38 @@ namespace WpfUsbMonitor
         [GuidAttribute("65a9a6cf-64cd-480b-843e-32c86e1ba19f")]
         UMBus,
 
+        /// <summary>
+        /// Rendering Control
+        /// </summary>
+        [Description("Rendering Control")]
+        [GuidAttribute("8660e926-ff3d-580c-959e-8b8af44d7cde")]
+        RenderingControl,
+
+        /// <summary>
+        /// Connection Manager
+        /// </summary>
+        [Description("Connection Manager")]
+        [GuidAttribute("ae9eb9c4-8819-51d8-879d-9a42ffb89d4e")]
+        ConnectionManager,
+
+        /// <summary>
+        /// AV Transport
+        /// </summary>
+        [Description("AV Transport")]
+        [GuidAttribute("4c38e836-6a2f-5949-9406-1788ea20d1d5")]
+        AVTransport,
+
+        /// <summary>
+        /// Content Directory
+        /// </summary>
+        [Description("Content Directory")]
+        [GuidAttribute("575d078a-63b9-5bc0-958b-87cc35b279cc")]
+        ContentDirectory,
+
+
+        // ???? unknown 57edcd85-0281-4893-a224-6719f892b1a4 
+
+
         // kernel streaming Category
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/install/kscategory-acoustic-echo-cancel
 
@@ -281,11 +313,34 @@ namespace WpfUsbMonitor
         AudioDevice,
 
         /// <summary>
-        /// Render WAV and MIDI data
+        /// Audio GFX
         /// </summary>
-        [Description("Render")]
-        [GuidAttribute("65E8773E-8F56-11D0-A3B9-00A0C9223196")]
-        Render,
+        [Description("Audio GFX")]
+        [GuidAttribute("9BAF9572-340C-11D3-ABDC-00A0C90AB16F")]
+        AudioGFX,
+
+        /// <summary>
+        /// Audio Splitter
+        /// </summary>
+        [Description("Audio Splitter")]
+        [GuidAttribute("9EA331FA-B91B-45F8-9285-BD2BC77AFCDE")]
+        AudioSplitter,
+
+        /// <summary>
+        /// Broadcast Driver Architecture sink filter
+        /// </summary>
+        [Description("BDA IP Sink")]
+        [GuidAttribute("71985F4A-1CA1-11d3-9CC8-00C04F7971E0")]
+        BDAIPSink,
+
+        // todo
+
+        /// <summary>
+        /// Bridge
+        /// </summary>
+        [Description("Bridge")]
+        [GuidAttribute("085AFF00-62CE-11CF-A5D6-28DB04C10000")]
+        Bridge,
 
         /// <summary>
         /// Capture WAV and MIDI data
@@ -293,5 +348,97 @@ namespace WpfUsbMonitor
         [Description("Capture")]
         [GuidAttribute("65E8773D-8F56-11D0-A3B9-00A0C9223196")]
         Capture,
+        
+        /// <summary>
+        /// Clock
+        /// </summary>
+        [Description("Clock")]
+        [GuidAttribute("53172480-4791-11D0-A5D6-28DB04C10000")]
+        Clock,
+
+
+        /// <summary>
+        /// Mixer
+        /// </summary>
+        [Description("Mixer")]
+        [GuidAttribute("AD809C00-7B88-11D0-A5D6-28DB04C10000")]
+        Mixer,
+
+        /// <summary>
+        /// Network
+        /// </summary>
+        [Description("Network")]
+        [GuidAttribute("67C9CC3C-69C4-11D2-8759-00A0C9223196")]
+        Network,
+
+        /// <summary>
+        /// Preferred Midi Out Device
+        /// </summary>
+        [Description("Preferred Midi Out Device")]
+        [GuidAttribute("D6C50674-72C1-11D2-9755-0000F8004788")]
+        PreferredMidiOutDevice,
+
+        /// <summary>
+        /// Preferred Wave In Device
+        /// </summary>
+        [Description("Preferred Wave In Device")]
+        [GuidAttribute("D6C50671-72C1-11D2-9755-0000F8004788")]
+        PreferredWaveInDevice,
+
+        /// <summary>
+        /// Preferred Wave Out Device
+        /// </summary>
+        [Description("Preferred Wave Out Device")]
+        [GuidAttribute("D6C5066E-72C1-11D2-9755-0000F8004788")]
+        PreferredWaveOutDevice,
+
+        /// <summary>
+        /// Proxy
+        /// </summary>
+        [Description("Proxy")]
+        [GuidAttribute("97EBAACA-95BD-11D0-A3EA-00A0C9223196")]
+        Proxy,
+
+        /// <summary>
+        /// Quality
+        /// </summary>
+        [Description("Quality")]
+        [GuidAttribute("97EBAACB-95BD-11D0-A3EA-00A0C9223196")]
+        Quality,
+
+        /// <summary>
+        /// Realtime
+        /// </summary>
+        [Description("Realtime")]
+        [GuidAttribute("EB115FFC-10C8-4964-831D-6DCB02E6F23F")]
+        Realtime,
+
+        /// <summary>
+        /// Render WAV and MIDI data
+        /// </summary>
+        [Description("Render")]
+        [GuidAttribute("65E8773E-8F56-11D0-A3B9-00A0C9223196")]
+        Render,
+
+        /// <summary>
+        /// Sensor Camera
+        /// </summary>
+        [Description("Sensor Camera")]
+        [GuidAttribute("24E552D7-6523-47F7-A647-D3465BF1F5CA")]
+        SensorCamera,
+
+        /// <summary>
+        /// Splitter
+        /// </summary>
+        [Description("Splitter")]
+        [GuidAttribute("0A4252A0-7E70-11D0-A5D6-28DB04C10000")]
+        Splitter,
+
+        /// <summary>
+        /// Synthesizer
+        /// </summary>
+        [Description("Synthesizer")]
+        [GuidAttribute("DFF220F3-F70F-11D0-B917-00A0C9223196")]
+        Synthesizer,
     }
 }
