@@ -8,22 +8,23 @@ namespace WpfUsbMonitor
 {
     public class UsbEventVolumeArgs : UsbEventArgs
     {
-        public UsbEventVolumeArgs(UsbDeviceAction action, uint unitmask, ushort flags, char drive) : base(action)
+        public UsbEventVolumeArgs(UsbDeviceAction action, uint unitmask, ushort flags, char[] drives) : base(action)
         {
             this.UnitMask = unitmask;
             this.Flags = flags;
-            this.Drive = drive;
+            this.Drives = drives;
         }
 
         public uint UnitMask { get; private set; }
 
         public ushort Flags { get; private set; }
 
-        public char Drive { get; private set; }
+        public char[] Drives { get; private set; }
 
         public override string ToString()
         {
-            return $"{Action} Volume: UnitMask={UnitMask} Flags={Flags} Drive={Drive}:";
+            string drives = Drives.Select(d => $"{d}:").Aggregate((a, b) => $"{a}, {b}");
+            return $"{Action} Volume: UnitMask=0x{UnitMask:X} Flags={Flags} Drives={drives}";
         }
     }
 }

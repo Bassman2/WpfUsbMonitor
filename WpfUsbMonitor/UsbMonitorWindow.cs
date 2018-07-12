@@ -181,11 +181,24 @@ namespace WpfUsbMonitor
         {
             if (msg == WM_DEVICECHANGE)
             {
-                switch (wparam.ToInt32())
+                int deviceChangeEvent = wparam.ToInt32();
+                switch (deviceChangeEvent)
                 {
                 case DBT_DEVICEARRIVAL:
                 case DBT_DEVICEQUERYREMOVE:
+                case DBT_DEVICEQUERYREMOVEFAILED:
+                case DBT_DEVICEREMOVEPENDING:
                 case DBT_DEVICEREMOVECOMPLETE:
+                    //int deviceType = Marshal.ReadInt32(lparam, 4);
+                    //switch (deviceType)
+                    //{
+                    //case DBT_DEVTYP_OEM:
+                    //case DBT_DEVTYP_VOLUME:
+                    //case DBT_DEVTYP_PORT:
+                    //case DBT_DEVTYP_DEVICEINTERFACE:
+                    //case DBT_DEVTYP_HANDLE:
+                    //}
+
                     UsbEventArgs args = this.deviceChangeManager.OnDeviceChange(wparam, lparam);
                     if (args != null)
                     {
@@ -298,17 +311,17 @@ namespace WpfUsbMonitor
             return IntPtr.Zero;
         }
 
-        private UsbEventArgs CreateUsbEventArgs(UsbDeviceAction action, IntPtr lparam)
-        {
-            int size = Marshal.ReadInt32(lparam, 0);
-            //var deviceInterface = Marshal.PtrToStructure<NativeMethods.DEV_BROADCAST_DEVICEINTERFACE>(lparam);
-            var deviceInterface = (NativeMethods.DEV_BROADCAST_DEVICEINTERFACE) Marshal.PtrToStructure(lparam, typeof(NativeMethods.DEV_BROADCAST_DEVICEINTERFACE));
-            //var deviceType = (UsbDeviceType)deviceInterface.dbcc_devicetype;
-            var classGuid = new Guid(deviceInterface.dbcc_classguid);
-            var classId = GuidToDeviceClass(classGuid);
-            var name = new string(deviceInterface.dbcc_name.TakeWhile(c => c != 0).ToArray());
-            return new UsbEventArgs(action, classGuid, classId, name);
-        }
+        //private UsbEventArgs CreateUsbEventArgs(UsbDeviceAction action, IntPtr lparam)
+        //{
+        //    int size = Marshal.ReadInt32(lparam, 0);
+        //    //var deviceInterface = Marshal.PtrToStructure<NativeMethods.DEV_BROADCAST_DEVICEINTERFACE>(lparam);
+        //    var deviceInterface = (NativeMethods.DEV_BROADCAST_DEVICEINTERFACE) Marshal.PtrToStructure(lparam, typeof(NativeMethods.DEV_BROADCAST_DEVICEINTERFACE));
+        //    //var deviceType = (UsbDeviceType)deviceInterface.dbcc_devicetype;
+        //    var classGuid = new Guid(deviceInterface.dbcc_classguid);
+        //    var classId = GuidToDeviceClass(classGuid);
+        //    var name = new string(deviceInterface.dbcc_name.TakeWhile(c => c != 0).ToArray());
+        //    return new UsbEventArgs(action, classGuid, classId, name);
+        //}
         
         private UsbDeviceClass GuidToDeviceClass(Guid guid)
         {

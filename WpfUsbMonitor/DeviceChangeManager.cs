@@ -95,26 +95,26 @@ namespace WpfUsbMonitor
             case DBT_DEVTYP_OEM:
                 var oem = (DevBroadcastOEM)Marshal.PtrToStructure(lparam, typeof(DevBroadcastOEM));
                 Debug.WriteLine($"OEM: Size={oem.Size}, DeviceType={oem.DeviceType}, Reserved={oem.Reserved}, Identifier={oem.Identifier}, SuppFunc={oem.SuppFunc}");
-
-                
-                break;
+                return new UsbEventOemArgs(action, oem.Identifier, oem.SuppFunc);
             case DBT_DEVTYP_VOLUME:
                 var volume = (DevBroadcastVolume)Marshal.PtrToStructure(lparam, typeof(DevBroadcastVolume));
-                char drive = FirstDriveFromMask(volume.UnitMask);
-                Debug.WriteLine($"Volume: size={volume.Size}, deviceType={volume.DeviceType}, reserved={volume.Reserved}, unitmask={volume.UnitMask}, flags={volume.Flags}, drive={drive}");
-                return new UsbEventVolumeArgs(action, volume.UnitMask, volume.Flags, drive);
+                //char drive = FirstDriveFromMask(volume.UnitMask);
+                char[] drives = DrivesFromMask(volume.UnitMask);
+                string drivesStr = drives.Select(d => $"{d}:").Aggregate((a, b) => $"{a}, {b}");
+                Debug.WriteLine($"Volume: size={volume.Size}, deviceType={volume.DeviceType}, reserved={volume.Reserved}, unitmask={volume.UnitMask}, flags={volume.Flags}, drives={drivesStr}");
+                return new UsbEventVolumeArgs(action, volume.UnitMask, volume.Flags, drives);
             case DBT_DEVTYP_PORT:
                 var port = (DevBroadcastPort)Marshal.PtrToStructure(lparam, typeof(DevBroadcastPort));
                 Debug.WriteLine($"Port: Size={port.Size}, DeviceType={port.DeviceType}, Reserved={port.Reserved}, Name={port.Name}");
-                break;
+                return new UsbEventPortArgs(action, port.Name);
             case DBT_DEVTYP_DEVICEINTERFACE:
                 var device = (DevBroadcastDeviceInterface)Marshal.PtrToStructure(lparam, typeof(DevBroadcastDeviceInterface));
                 Debug.WriteLine($"DeviceInterface: Size={device.Size}, DeviceType={device.DeviceType}, Reserved={device.Reserved}, ClassGuid={device.ClassGuid}, Name={device.Name}");
-                break;
+                return  new UsbEventDeviceInterfaceArgs(action, device.ClassGuid, device.Name);
             case DBT_DEVTYP_HANDLE:
                 var handle = (DevBroadcastHandle)Marshal.PtrToStructure(lparam, typeof(DevBroadcastHandle));
                 Debug.WriteLine($"DeviceInterface: Size={handle.Size}, DeviceType={handle.DeviceType}, Reserved={handle.Reserved}, Handle={handle.Handle}, DevNotify={handle.DevNotify}, EventGuid={handle.EventGuid}, NameOffset={handle.NameOffset}, Data={handle.Data}");
-                break;
+                return new UsbEventHandleArgs(action, handle.Handle, handle.DevNotify, handle.EventGuid, handle.NameOffset, handle.Data);
             default:
                 break;
             }
@@ -131,6 +131,19 @@ namespace WpfUsbMonitor
                 }
             }
             return (char)0;
+        }
+
+        private char[] DrivesFromMask(uint unitmask)
+        {
+            List<char> drives = new List<char>();
+            for (byte i = 0; i < 26; ++i, unitmask >>= 1)
+            {
+                if ((unitmask & 0x1) != 0)
+                {
+                    drives.Add((char)(((byte)'A') + i));
+                }
+            }
+            return drives.ToArray();
         }
 
         [StructLayout(LayoutKind.Sequential)]

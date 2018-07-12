@@ -60,6 +60,10 @@
     <Compile Include="UsbDeviceClass.cs" />
     <Compile Include="UsbDeviceType.cs" />
     <Compile Include="UsbEventArgs.cs" />
+    <Compile Include="UsbEventDeviceInterfaceArgs.cs" />
+    <Compile Include="UsbEventHandleArgs.cs" />
+    <Compile Include="UsbEventOemArgs.cs" />
+    <Compile Include="UsbEventPortArgs.cs" />
     <Compile Include="UsbEventVolumeArgs.cs" />
     <Compile Include="UsbMonitor.cs" />
     <Compile Include="UsbMonitorWindow.cs" />
