@@ -16,14 +16,34 @@ namespace DeviceCatcher
             InitializeComponent();
         }
 
-        protected override void OnUsbUpdate(UsbEventArgs args)
+        protected override void OnUsbOem(UsbEventOemArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }
 
-        protected override void OnUsbChanged()
+        protected override void OnUsbVolume(UsbEventVolumeArgs args)
         {
-            this.textBox.Text += "Changed\r\n";
+            this.textBox.Text += args.ToString() + "\r\n";
+        }
+
+        protected override void OnUsbPort(UsbEventPortArgs args)
+        {
+            this.textBox.Text += args.ToString() + "\r\n";
+        }
+
+        protected override void OnUsbInterface(UsbEventDeviceInterfaceArgs args)
+        {
+            this.textBox.Text += args.ToString() + "\r\n";
+        }
+
+        protected override void OnUsbHandle(UsbEventHandleArgs args)
+        {
+            this.textBox.Text += args.ToString() + "\r\n";
+        }
+
+        protected override void OnUsbUpdate(UsbEventArgs args)
+        {
+            this.textBox.Text += args.ToString() + "\r\n";
         }
     }
 }

@@ -8,7 +8,7 @@ namespace WpfUsbMonitor
 {
     public class UsbEventVolumeArgs : UsbEventArgs
     {
-        public UsbEventVolumeArgs(UsbDeviceAction action, uint unitmask, ushort flags, char[] drives) : base(action)
+        public UsbEventVolumeArgs(UsbDeviceChangeEvent action, uint unitmask, ushort flags, char[] drives) : base(action)
         {
             this.UnitMask = unitmask;
             this.Flags = flags;

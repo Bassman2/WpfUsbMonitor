@@ -11,14 +11,18 @@ namespace WpfUsbMonitor
     /// <summary>
     /// USB Monitor class to notify if the USB content changes
     /// </summary>
-    public class UsbMonitor
+    public class UsbMonitor : DeviceChangeManager
     {
         private const int WM_DEVICECHANGE = 0x0219;
 
         private const int DEVICE_NOTIFY_WINDOW_HANDLE = 0x00000000;
         private const int DEVICE_NOTIFY_ALL_INTERFACE_CLASSES = 0x00000004;
 
+        private const int DBT_DEVTYP_OEM = 0x00000000;
+        private const int DBT_DEVTYP_VOLUME = 0x00000002;
+        private const int DBT_DEVTYP_PORT = 0x00000003;
         private const int DBT_DEVTYP_DEVICEINTERFACE = 0x00000005;
+        private const int DBT_DEVTYP_HANDLE = 0x00000006;
 
         private const int DBT_DEVNODES_CHANGED = 0x0007;
         private const int DBT_DEVICEARRIVAL = 0x8000;
@@ -30,17 +34,22 @@ namespace WpfUsbMonitor
         private const int DBT_CUSTOMEVENT = 0x8006;
 
         private IntPtr windowHandle;
-        private IntPtr deviceEventHandle;
+        //private IntPtr deviceEventHandle;
 
         /// <summary>
         /// Event for USB update
         /// </summary>
-        public event EventHandler<UsbEventArgs> UsbUpdate;
+        public event EventHandler<UsbEventArgs> UsbChanged;
 
-        /// <summary>
-        /// Event for USB change
-        /// </summary>
-        public event EventHandler UsbChanged;
+        public event EventHandler<UsbEventOemArgs> UsbOem;
+
+        public event EventHandler<UsbEventVolumeArgs> UsbVolume;
+
+        public event EventHandler<UsbEventPortArgs> UsbPort;
+
+        public event EventHandler<UsbEventDeviceInterfaceArgs> UsbDeviceInterface;
+
+        public event EventHandler<UsbEventHandleArgs> UsbHandle;
 
         /// <summary>
         /// Constructor
@@ -59,18 +68,19 @@ namespace WpfUsbMonitor
         /// </summary>
         public void Start()
         {
-            int size = Marshal.SizeOf(typeof(NativeMethods.DEV_BROADCAST_DEVICEINTERFACE));
-            var deviceInterface = new NativeMethods.DEV_BROADCAST_DEVICEINTERFACE();
-            deviceInterface.dbcc_size = size;
-            deviceInterface.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
-            IntPtr buffer = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(deviceInterface, buffer, true);
-            this.deviceEventHandle = NativeMethods.RegisterDeviceNotification(windowHandle, buffer, DEVICE_NOTIFY_WINDOW_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
-            if (deviceEventHandle == IntPtr.Zero)
-            {
-                int error = Marshal.GetLastWin32Error();
-            }
-            Marshal.FreeHGlobal(buffer);
+            Register(this.windowHandle);
+            //int size = Marshal.SizeOf(typeof(NativeMethods.DEV_BROADCAST_DEVICEINTERFACE));
+            //var deviceInterface = new NativeMethods.DEV_BROADCAST_DEVICEINTERFACE();
+            //deviceInterface.dbcc_size = size;
+            //deviceInterface.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
+            //IntPtr buffer = Marshal.AllocHGlobal(size);
+            //Marshal.StructureToPtr(deviceInterface, buffer, true);
+            //this.deviceEventHandle = NativeMethods.RegisterDeviceNotification(windowHandle, buffer, DEVICE_NOTIFY_WINDOW_HANDLE | DEVICE_NOTIFY_ALL_INTERFACE_CLASSES);
+            //if (deviceEventHandle == IntPtr.Zero)
+            //{
+            //    int error = Marshal.GetLastWin32Error();
+            //}
+            //Marshal.FreeHGlobal(buffer);
         }
 
         /// <summary>
@@ -78,41 +88,88 @@ namespace WpfUsbMonitor
         /// </summary>
         public void Stop()
         {
-            if (deviceEventHandle != IntPtr.Zero)
-            {
-                NativeMethods.UnregisterDeviceNotification(deviceEventHandle);
-            }
-            deviceEventHandle = IntPtr.Zero;
+            Unregister();
+            //if (deviceEventHandle != IntPtr.Zero)
+            //{
+            //    NativeMethods.UnregisterDeviceNotification(deviceEventHandle);
+            //}
+            //deviceEventHandle = IntPtr.Zero;
         }
 
         private IntPtr HwndHandler(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
         {
             if (msg == WM_DEVICECHANGE)
             {
-                switch (wparam.ToInt32())
+                UsbDeviceChangeEvent deviceChangeEvent = (UsbDeviceChangeEvent)wparam.ToInt32();
+                switch (deviceChangeEvent)
                 {
-                    case DBT_DEVICEARRIVAL:
-                        if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
-                        {
-                            //this.UsbUpdate?.Invoke(this, CreateUsbEventArgs(UsbDeviceAction.Arrival, lparam));
-                        }
+                case UsbDeviceChangeEvent.Arrival:
+                case UsbDeviceChangeEvent.QueryRemove:
+                case UsbDeviceChangeEvent.QueryRemoveFailed:
+                case UsbDeviceChangeEvent.RemovePending:
+                case UsbDeviceChangeEvent.RemoveComplete:
+                    int deviceType = Marshal.ReadInt32(lparam, 4);
+                    switch (deviceType)
+                    {
+                    case DBT_DEVTYP_OEM:
+                        var oemArgs = OnDeviceOem(deviceChangeEvent, lparam);
+                        // fire event
+                        this.UsbOem?.Invoke(this, oemArgs);
                         break;
-                    case DBT_DEVICEQUERYREMOVE:
-                        if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
-                        {
-                            //this.UsbUpdate?.Invoke(this, CreateUsbEventArgs(UsbDeviceAction.QueryRemove, lparam));
-                        }
+                    case DBT_DEVTYP_VOLUME:
+                        var volumeArgs = OnDeviceVolume(deviceChangeEvent, lparam);
+                        // fire event
+                        this.UsbVolume?.Invoke(this, volumeArgs);
                         break;
-                    case DBT_DEVICEREMOVECOMPLETE:
-                        if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
-                        {
-                            //this.UsbUpdate?.Invoke(this, CreateUsbEventArgs(UsbDeviceAction.RemoveComplete, lparam));
-                        }
+                    case DBT_DEVTYP_PORT:
+                        var portArgs = OnDevicePort(deviceChangeEvent, lparam);
+                        // fire event
+                        this.UsbPort?.Invoke(this, portArgs);
                         break;
-                    case DBT_DEVNODES_CHANGED:
-                        this.UsbChanged?.Invoke(this, new EventArgs());
+                    case DBT_DEVTYP_DEVICEINTERFACE:
+                        var interfaceArgs = OnDeviceInterface(deviceChangeEvent, lparam);
+                        // fire event
+                        this.UsbDeviceInterface?.Invoke(this, interfaceArgs);
                         break;
+                    case DBT_DEVTYP_HANDLE:
+                        var handleArgs = OnDeviceHandle(deviceChangeEvent, lparam);
+                        // fire event
+                        this.UsbHandle?.Invoke(this, handleArgs);
+                        break;
+                    default:
+                        break;
+                    }
+                    break;
+                case UsbDeviceChangeEvent.Changed:
+                    // fire event
+                    this.UsbChanged?.Invoke(this, new UsbEventArgs(deviceChangeEvent));
+                    break;
                 }
+
+                //switch (wparam.ToInt32())
+                //{
+                //    case DBT_DEVICEARRIVAL:
+                //        if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
+                //        {
+                //            //this.UsbUpdate?.Invoke(this, CreateUsbEventArgs(UsbDeviceAction.Arrival, lparam));
+                //        }
+                //        break;
+                //    case DBT_DEVICEQUERYREMOVE:
+                //        if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
+                //        {
+                //            //this.UsbUpdate?.Invoke(this, CreateUsbEventArgs(UsbDeviceAction.QueryRemove, lparam));
+                //        }
+                //        break;
+                //    case DBT_DEVICEREMOVECOMPLETE:
+                //        if (Marshal.ReadInt32(lparam, 4) == DBT_DEVTYP_DEVICEINTERFACE)
+                //        {
+                //            //this.UsbUpdate?.Invoke(this, CreateUsbEventArgs(UsbDeviceAction.RemoveComplete, lparam));
+                //        }
+                //        break;
+                //    case DBT_DEVNODES_CHANGED:
+                //        //this.UsbChanged?.Invoke(this, new EventArgs());
+                //        break;
+                //}
             }
             handled = false;
             return IntPtr.Zero;

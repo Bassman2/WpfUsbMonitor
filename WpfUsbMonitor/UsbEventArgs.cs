@@ -7,7 +7,7 @@ namespace WpfUsbMonitor
     /// </summary>
     public class UsbEventArgs : EventArgs
     {
-        internal UsbEventArgs(UsbDeviceAction action)
+        internal UsbEventArgs(UsbDeviceChangeEvent action)
         {
             this.Action = action;
         }
@@ -15,7 +15,7 @@ namespace WpfUsbMonitor
         /// <summary>
         /// Device action
         /// </summary>
-        public UsbDeviceAction Action { get; private set; }
+        public UsbDeviceChangeEvent Action { get; private set; }
 
         /// <summary>
         /// Override ToString

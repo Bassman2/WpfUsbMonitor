@@ -8,7 +8,7 @@ namespace WpfUsbMonitor
 {
     public class UsbEventPortArgs : UsbEventArgs
     {
-        public UsbEventPortArgs(UsbDeviceAction action, string name) : base(action)
+        public UsbEventPortArgs(UsbDeviceChangeEvent action, string name) : base(action)
         {
             this.Name = name;
         }

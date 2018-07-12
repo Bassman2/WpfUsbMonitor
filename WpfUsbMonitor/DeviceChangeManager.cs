@@ -73,11 +73,11 @@ namespace WpfUsbMonitor
             switch (wParam)
             {
             case DBT_DEVICEARRIVAL:
-                return OnDevice(UsbDeviceAction.Arrival, lparam);
+                return OnDevice(UsbDeviceChangeEvent.Arrival, lparam);
             case DBT_DEVICEQUERYREMOVE:
-                return OnDevice(UsbDeviceAction.QueryRemove, lparam);
+                return OnDevice(UsbDeviceChangeEvent.QueryRemove, lparam);
             case DBT_DEVICEREMOVECOMPLETE:
-                return OnDevice(UsbDeviceAction.RemoveComplete, lparam);
+                return OnDevice(UsbDeviceChangeEvent.RemoveComplete, lparam);
             default:
                 break;
             }
@@ -85,7 +85,7 @@ namespace WpfUsbMonitor
         }
 
 
-        private UsbEventArgs OnDevice(UsbDeviceAction action, IntPtr lparam)
+        private UsbEventArgs OnDevice(UsbDeviceChangeEvent action, IntPtr lparam)
         {
             //int size = Marshal.ReadInt32(lparam, 0);
             int deviceType = Marshal.ReadInt32(lparam, 4);
@@ -93,32 +93,75 @@ namespace WpfUsbMonitor
             switch (deviceType)
             {
             case DBT_DEVTYP_OEM:
-                var oem = (DevBroadcastOEM)Marshal.PtrToStructure(lparam, typeof(DevBroadcastOEM));
-                Debug.WriteLine($"OEM: Size={oem.Size}, DeviceType={oem.DeviceType}, Reserved={oem.Reserved}, Identifier={oem.Identifier}, SuppFunc={oem.SuppFunc}");
-                return new UsbEventOemArgs(action, oem.Identifier, oem.SuppFunc);
+                //var oem = (DevBroadcastOEM)Marshal.PtrToStructure(lparam, typeof(DevBroadcastOEM));
+                //Debug.WriteLine($"OEM: Size={oem.Size}, DeviceType={oem.DeviceType}, Reserved={oem.Reserved}, Identifier={oem.Identifier}, SuppFunc={oem.SuppFunc}");
+                //return new UsbEventOemArgs(action, oem.Identifier, oem.SuppFunc);
+                return OnDeviceOem(action, lparam);
             case DBT_DEVTYP_VOLUME:
-                var volume = (DevBroadcastVolume)Marshal.PtrToStructure(lparam, typeof(DevBroadcastVolume));
-                //char drive = FirstDriveFromMask(volume.UnitMask);
-                char[] drives = DrivesFromMask(volume.UnitMask);
-                string drivesStr = drives.Select(d => $"{d}:").Aggregate((a, b) => $"{a}, {b}");
-                Debug.WriteLine($"Volume: size={volume.Size}, deviceType={volume.DeviceType}, reserved={volume.Reserved}, unitmask={volume.UnitMask}, flags={volume.Flags}, drives={drivesStr}");
-                return new UsbEventVolumeArgs(action, volume.UnitMask, volume.Flags, drives);
+                //var volume = (DevBroadcastVolume)Marshal.PtrToStructure(lparam, typeof(DevBroadcastVolume));
+                ////char drive = FirstDriveFromMask(volume.UnitMask);
+                //char[] drives = DrivesFromMask(volume.UnitMask);
+                //string drivesStr = drives.Select(d => $"{d}:").Aggregate((a, b) => $"{a}, {b}");
+                //Debug.WriteLine($"Volume: size={volume.Size}, deviceType={volume.DeviceType}, reserved={volume.Reserved}, unitmask={volume.UnitMask}, flags={volume.Flags}, drives={drivesStr}");
+                //return new UsbEventVolumeArgs(action, volume.UnitMask, volume.Flags, drives);
+                return OnDeviceVolume(action, lparam);
             case DBT_DEVTYP_PORT:
-                var port = (DevBroadcastPort)Marshal.PtrToStructure(lparam, typeof(DevBroadcastPort));
-                Debug.WriteLine($"Port: Size={port.Size}, DeviceType={port.DeviceType}, Reserved={port.Reserved}, Name={port.Name}");
-                return new UsbEventPortArgs(action, port.Name);
+                //var port = (DevBroadcastPort)Marshal.PtrToStructure(lparam, typeof(DevBroadcastPort));
+                //Debug.WriteLine($"Port: Size={port.Size}, DeviceType={port.DeviceType}, Reserved={port.Reserved}, Name={port.Name}");
+                //return new UsbEventPortArgs(action, port.Name);
+                return OnDevicePort(action, lparam);
             case DBT_DEVTYP_DEVICEINTERFACE:
-                var device = (DevBroadcastDeviceInterface)Marshal.PtrToStructure(lparam, typeof(DevBroadcastDeviceInterface));
-                Debug.WriteLine($"DeviceInterface: Size={device.Size}, DeviceType={device.DeviceType}, Reserved={device.Reserved}, ClassGuid={device.ClassGuid}, Name={device.Name}");
-                return  new UsbEventDeviceInterfaceArgs(action, device.ClassGuid, device.Name);
+                //var device = (DevBroadcastDeviceInterface)Marshal.PtrToStructure(lparam, typeof(DevBroadcastDeviceInterface));
+                //Debug.WriteLine($"DeviceInterface: Size={device.Size}, DeviceType={device.DeviceType}, Reserved={device.Reserved}, ClassGuid={device.ClassGuid}, Name={device.Name}");
+                //return  new UsbEventDeviceInterfaceArgs(action, device.ClassGuid, device.Name);
+                return OnDeviceInterface(action, lparam);
             case DBT_DEVTYP_HANDLE:
-                var handle = (DevBroadcastHandle)Marshal.PtrToStructure(lparam, typeof(DevBroadcastHandle));
-                Debug.WriteLine($"DeviceInterface: Size={handle.Size}, DeviceType={handle.DeviceType}, Reserved={handle.Reserved}, Handle={handle.Handle}, DevNotify={handle.DevNotify}, EventGuid={handle.EventGuid}, NameOffset={handle.NameOffset}, Data={handle.Data}");
-                return new UsbEventHandleArgs(action, handle.Handle, handle.DevNotify, handle.EventGuid, handle.NameOffset, handle.Data);
+                //var handle = (DevBroadcastHandle)Marshal.PtrToStructure(lparam, typeof(DevBroadcastHandle));
+                //Debug.WriteLine($"DeviceInterface: Size={handle.Size}, DeviceType={handle.DeviceType}, Reserved={handle.Reserved}, Handle={handle.Handle}, DevNotify={handle.DevNotify}, EventGuid={handle.EventGuid}, NameOffset={handle.NameOffset}, Data={handle.Data}");
+                //return new UsbEventHandleArgs(action, handle.Handle, handle.DevNotify, handle.EventGuid, handle.NameOffset, handle.Data);
+                return OnDeviceHandle(action, lparam);
             default:
                 break;
             }
             return null;
+        }
+
+        public UsbEventOemArgs OnDeviceOem(UsbDeviceChangeEvent action, IntPtr lparam)
+        {
+            var oem = (DevBroadcastOEM)Marshal.PtrToStructure(lparam, typeof(DevBroadcastOEM));
+            Debug.WriteLine($"OEM: Size={oem.Size}, DeviceType={oem.DeviceType}, Reserved={oem.Reserved}, Identifier={oem.Identifier}, SuppFunc={oem.SuppFunc}");
+            return new UsbEventOemArgs(action, oem.Identifier, oem.SuppFunc);
+        }
+
+        public UsbEventVolumeArgs OnDeviceVolume(UsbDeviceChangeEvent action, IntPtr lparam)
+        {
+            var volume = (DevBroadcastVolume)Marshal.PtrToStructure(lparam, typeof(DevBroadcastVolume));
+            //char drive = FirstDriveFromMask(volume.UnitMask);
+            char[] drives = DrivesFromMask(volume.UnitMask);
+            string drivesStr = drives.Select(d => $"{d}:").Aggregate((a, b) => $"{a}, {b}");
+            Debug.WriteLine($"Volume: size={volume.Size}, deviceType={volume.DeviceType}, reserved={volume.Reserved}, unitmask={volume.UnitMask}, flags={volume.Flags}, drives={drivesStr}");
+            return new UsbEventVolumeArgs(action, volume.UnitMask, volume.Flags, drives);
+        }
+
+        public UsbEventPortArgs OnDevicePort(UsbDeviceChangeEvent action, IntPtr lparam)
+        {
+            var port = (DevBroadcastPort)Marshal.PtrToStructure(lparam, typeof(DevBroadcastPort));
+            Debug.WriteLine($"Port: Size={port.Size}, DeviceType={port.DeviceType}, Reserved={port.Reserved}, Name={port.Name}");
+            return new UsbEventPortArgs(action, port.Name);
+        }
+
+        public UsbEventDeviceInterfaceArgs OnDeviceInterface(UsbDeviceChangeEvent action, IntPtr lparam)
+        {
+            var device = (DevBroadcastDeviceInterface)Marshal.PtrToStructure(lparam, typeof(DevBroadcastDeviceInterface));
+            Debug.WriteLine($"DeviceInterface: Size={device.Size}, DeviceType={device.DeviceType}, Reserved={device.Reserved}, ClassGuid={device.ClassGuid}, Name={device.Name}");
+            return new UsbEventDeviceInterfaceArgs(action, device.ClassGuid, device.Name);
+        }
+
+        public UsbEventHandleArgs OnDeviceHandle(UsbDeviceChangeEvent action, IntPtr lparam)
+        {
+            var handle = (DevBroadcastHandle)Marshal.PtrToStructure(lparam, typeof(DevBroadcastHandle));
+            Debug.WriteLine($"DeviceInterface: Size={handle.Size}, DeviceType={handle.DeviceType}, Reserved={handle.Reserved}, Handle={handle.Handle}, DevNotify={handle.DevNotify}, EventGuid={handle.EventGuid}, NameOffset={handle.NameOffset}, Data={handle.Data}");
+            return new UsbEventHandleArgs(action, handle.Handle, handle.DevNotify, handle.EventGuid, handle.NameOffset, handle.Data);
         }
 
         private char FirstDriveFromMask(uint unitmask)

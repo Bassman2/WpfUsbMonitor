@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:DeviceCatcher"
         mc:Ignorable="d"
         Title="Device Catcher" Height="600" Width="800" Icon="UnknownDrive.ico"
-        UsbUpdate="UsbMonitorWindow_UsbUpdate"
-        UsbChanged="UsbMonitorWindow_UsbChanged">
+        UsbOem="UsbMonitorWindow_Usb"
+        UsbVolume="UsbMonitorWindow_Usb"
+        UsbPort="UsbMonitorWindow_Usb"
+        UsbDeviceInterface="UsbMonitorWindow_Usb"
+        UsbHandle="UsbMonitorWindow_Usb"
+        UsbChanged="UsbMonitorWindow_Usb">
     <Grid>
         <TextBox x:Name="textBox" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
     </Grid>

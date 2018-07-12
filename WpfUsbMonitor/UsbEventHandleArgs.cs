@@ -8,7 +8,7 @@ namespace WpfUsbMonitor
 {
     public class UsbEventHandleArgs : UsbEventArgs
     {
-        public UsbEventHandleArgs(UsbDeviceAction action, IntPtr handle, IntPtr devNotify, Guid eventGuid, ulong nameOffset, byte[] data) : base(action)
+        public UsbEventHandleArgs(UsbDeviceChangeEvent action, IntPtr handle, IntPtr devNotify, Guid eventGuid, ulong nameOffset, byte[] data) : base(action)
         {
             this.Handle = handle;
             this.DevNotify = devNotify;

@@ -9,7 +9,7 @@ namespace WpfUsbMonitor
     
     public class UsbEventOemArgs : UsbEventArgs
     {
-        public UsbEventOemArgs(UsbDeviceAction action, uint identifier, uint suppFunc) : base(action)
+        public UsbEventOemArgs(UsbDeviceChangeEvent action, uint identifier, uint suppFunc) : base(action)
         {
             this.Identifier = identifier;
             this.SuppFunc = suppFunc;

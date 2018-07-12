@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:DeviceCatcher"
         mc:Ignorable="d"
         Title="Device Catcher" Height="600" Width="800" Icon="UnknownDrive.ico"
-        UsbUpdateCommand="{Binding UsbUpdateCommand}" UsbChangedCommand="{Binding UsbChangedCommand}">
+        UsbOemCommand="{Binding UsbCommand}"
+        UsbVolumeCommand="{Binding UsbCommand}"
+        UsbPortCommand="{Binding UsbCommand}"
+        UsbDeviceInterfaceCommand="{Binding UsbCommand}"
+        UsbHandleCommand="{Binding UsbCommand}"
+        UsbChangedCommand="{Binding UsbCommand}">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>

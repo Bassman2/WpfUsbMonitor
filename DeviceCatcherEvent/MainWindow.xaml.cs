@@ -13,14 +13,9 @@ namespace DeviceCatcher
             InitializeComponent();
         }
 
-        private void UsbMonitorWindow_UsbUpdate(object sender, UsbEventArgs e)
+        private void UsbMonitorWindow_Usb(object sender, UsbEventArgs e)
         {
             this.textBox.Text += e.ToString() + "\r\n";
-        }
-
-        private void UsbMonitorWindow_UsbChanged(object sender, EventArgs e)
-        {
-            this.textBox.Text += "Changed\r\n";
         }
     }
 }

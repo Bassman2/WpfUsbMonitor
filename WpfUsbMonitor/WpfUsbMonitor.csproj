@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="DeviceChangeManager.cs" />
     <Compile Include="GuidAttribute.cs" />
-    <Compile Include="UsbDeviceAction.cs" />
+    <Compile Include="UsbDeviceChangeEvent.cs" />
     <Compile Include="UsbDeviceClass.cs" />
     <Compile Include="UsbDeviceType.cs" />
     <Compile Include="UsbEventArgs.cs" />

@@ -16,17 +16,15 @@ namespace DeviceCatcher
             InitializeComponent();
 
             this.usbMonitor = new UsbMonitor(this);
-            this.usbMonitor.UsbUpdate += OnUsbUpdate;
-            this.usbMonitor.UsbChanged += OnUsbChanged;
-
+            this.usbMonitor.UsbOem += OnUsb;
+            this.usbMonitor.UsbVolume += OnUsb;
+            this.usbMonitor.UsbPort += OnUsb;
+            this.usbMonitor.UsbDeviceInterface += OnUsb;
+            this.usbMonitor.UsbHandle += OnUsb;
+            this.usbMonitor.UsbChanged += OnUsb;
         }
 
-        private void OnUsbChanged(object sender, EventArgs e)
-        {
-            this.textBox.Text += "Changed\r\n";
-        }
-
-        private void OnUsbUpdate(object sender, UsbEventArgs e)
+        private void OnUsb(object sender, UsbEventArgs e)
         {
             this.textBox.Text += e.ToString() + "\r\n";
         }

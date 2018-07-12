@@ -10,31 +10,19 @@ namespace DeviceCatcher
     {
         private string text;
 
-        public DelegateCommand<UsbEventArgs> UsbUpdateCommand { get; private set; }
-        public DelegateCommand UsbChangedCommand { get; private set; }
-
+        public DelegateCommand<UsbEventArgs> UsbCommand { get; private set; }
+        
         public MainViewModel()
         {
-            this.UsbUpdateCommand = new DelegateCommand<UsbEventArgs>(OnUsbUpdate, OnCanUsbUpdate);
-            this.UsbChangedCommand = new DelegateCommand(OnUsbChanged, OnCanUsbChanged);
+            this.UsbCommand = new DelegateCommand<UsbEventArgs>(OnUsb, OnCanUsb);
         }
 
-        public void OnUsbUpdate(UsbEventArgs args)
+        public void OnUsb(UsbEventArgs args)
         {
             this.Text += args.ToString() + "\r\n";
         }
 
-        public bool OnCanUsbUpdate(UsbEventArgs args)
-        {
-            return true;
-        }
-
-        public void OnUsbChanged()
-        {
-            this.Text += "Changed\r\n";
-        }
-
-        public bool OnCanUsbChanged()
+        public bool OnCanUsb(UsbEventArgs args)
         {
             return true;
         }
