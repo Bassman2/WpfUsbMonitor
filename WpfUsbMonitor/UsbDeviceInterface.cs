@@ -16,6 +16,8 @@ namespace WpfUsbMonitor
         [GuidAttribute()]
         Unknown = 0,
 
+        #region DEVINTERFACE
+
         /// <summary>
         /// Brightness
         /// </summary>
@@ -240,55 +242,10 @@ namespace WpfUsbMonitor
         [GuidAttribute("53F5630C-B6BF-11D0-94F2-00A0C91EFB8B")]
         WriteOnCeDisk,
 
-        // non official
-        
-        /// <summary>
-        /// Windows Portable Devices 2
-        /// </summary>
-        [Description("Windows Portable Devices 2")]
-        [GuidAttribute("F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE")]
-        WPD2,
+        #endregion
 
-        /// <summary>
-        /// Microsoft UMBus Root Bus Enumerator generic
-        /// </summary>
-        [Description("Microsoft UMBus Root Bus Enumerator generic")]
-        [GuidAttribute("65a9a6cf-64cd-480b-843e-32c86e1ba19f")]
-        UMBus,
+        #region Kernel Streaming Category
 
-        /// <summary>
-        /// Rendering Control
-        /// </summary>
-        [Description("Rendering Control")]
-        [GuidAttribute("8660e926-ff3d-580c-959e-8b8af44d7cde")]
-        RenderingControl,
-
-        /// <summary>
-        /// Connection Manager
-        /// </summary>
-        [Description("Connection Manager")]
-        [GuidAttribute("ae9eb9c4-8819-51d8-879d-9a42ffb89d4e")]
-        ConnectionManager,
-
-        /// <summary>
-        /// AV Transport
-        /// </summary>
-        [Description("AV Transport")]
-        [GuidAttribute("4c38e836-6a2f-5949-9406-1788ea20d1d5")]
-        AVTransport,
-
-        /// <summary>
-        /// Content Directory
-        /// </summary>
-        [Description("Content Directory")]
-        [GuidAttribute("575d078a-63b9-5bc0-958b-87cc35b279cc")]
-        ContentDirectory,
-
-
-        // ???? unknown 57edcd85-0281-4893-a224-6719f892b1a4 
-
-
-        // kernel streaming Category
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/install/kscategory-acoustic-echo-cancel
 
         /// <summary>
@@ -333,7 +290,40 @@ namespace WpfUsbMonitor
         [GuidAttribute("71985F4A-1CA1-11d3-9CC8-00C04F7971E0")]
         BDAIPSink,
 
-        // todo
+        /// <summary>
+        /// Broadcast Driver Architecture for an electronic program guide (EPG) 
+        /// </summary>
+        [Description("BDA Network EPG")]
+        [GuidAttribute("71985F49-1CA1-11d3-9CC8-00C04F7971E0")]
+        BDANetworkEPG,
+
+        /// <summary>
+        /// Broadcast Driver Architecture Network Provider
+        /// </summary>
+        [Description("BDA Network Provider")]
+        [GuidAttribute("71985F4B-1CA1-11d3-9CC8-00C04F7971E0")]
+        BDANetworkProvider,
+
+        /// <summary>
+        /// Broadcast Driver Architecture Network Tuner
+        /// </summary>
+        [Description("BDA Network Tuner")]
+        [GuidAttribute("71985F48-1CA1-11d3-9CC8-00C04F7971E0")]
+        BDANetworkTuner,
+
+        /// <summary>
+        /// Broadcast Driver Architecture Receiver Component
+        /// </summary>
+        [Description("BDA Receiver Component")]
+        [GuidAttribute("FD0A5AF4-B41D-11d2-9C95-00C04F7971E0")]
+        BDAReceiverComponent,
+
+        /// <summary>
+        /// Broadcast Driver Architecture Transport Information
+        /// </summary>
+        [Description("BDA Transport Information")]
+        [GuidAttribute("A2E3074F-6C3D-11d3-B653-00C04F79498E")]
+        BDATransportInformation,
 
         /// <summary>
         /// Bridge
@@ -348,7 +338,7 @@ namespace WpfUsbMonitor
         [Description("Capture")]
         [GuidAttribute("65E8773D-8F56-11D0-A3B9-00A0C9223196")]
         Capture,
-        
+
         /// <summary>
         /// Clock
         /// </summary>
@@ -356,7 +346,90 @@ namespace WpfUsbMonitor
         [GuidAttribute("53172480-4791-11D0-A5D6-28DB04C10000")]
         Clock,
 
+        /// <summary>
+        /// Communications Transform
+        /// </summary>
+        [Description("Communications Transform")]
+        [GuidAttribute("CF1DDA2C-9743-11D0-A3EE-00A0C9223196")]
+        CommunicationsTransform,
 
+        /// <summary>
+        /// Crossbar
+        /// </summary>
+        [Description("Crossbar")]
+        [GuidAttribute("A799A801-A46D-11D0-A18C-00A02401DCD4")]
+        Crossbar,
+
+        /// <summary>
+        /// Data Compressor
+        /// </summary>
+        [Description("Data Compressor")]
+        [GuidAttribute("1E84C900-7E70-11D0-A5D6-28DB04C10000")]
+        DataCompressor,
+
+        /// <summary>
+        /// Data Decompressor
+        /// </summary>
+        [Description("Data Decompressor")]
+        [GuidAttribute("2721AE20-7E70-11D0-A5D6-28DB04C10000")]
+        DataDecompressor,
+
+        /// <summary>
+        /// Data Transform
+        /// </summary>
+        [Description("Data Transform")]
+        [GuidAttribute("2EB07EA0-7E70-11D0-A5D6-28DB04C10000")]
+        DataTransform,
+
+        /// <summary>
+        /// DRM Descramble
+        /// </summary>
+        [Description("DRM Descramble")]
+        [GuidAttribute("FFBB6E3F-CCFE-4D84-90D9-421418B03A8E")]
+        DRMDescramble,
+
+        /// <summary>
+        /// Encoder
+        /// </summary>
+        [Description("Encoder")]
+        [GuidAttribute("19689BF6-C384-48fd-AD51-90E58C79F70B")]
+        Encoder,
+
+        /// <summary>
+        /// Escalante Platform Driver
+        /// </summary>
+        [Description("Escalante Platform Driver")]
+        [GuidAttribute("74F3AEA8-9768-11D1-8E07-00A0C95EC22E")]
+        EscalantePlatformDriver,
+
+        /// <summary>
+        /// Filesystem
+        /// </summary>
+        [Description("Filesystem")]
+        [GuidAttribute("760FED5E-9357-11D0-A3CC-00A0C9223196")]
+        Filesystem,
+
+        /// <summary>
+        /// Interface Transform
+        /// </summary>
+        [Description("Interface Transform")]
+        [GuidAttribute("CF1DDA2D-9743-11D0-A3EE-00A0C9223196")]
+        InterfaceTransform,
+
+        /// <summary>
+        /// Medium Transform
+        /// </summary>
+        [Description("Medium Transform")]
+        [GuidAttribute("CF1DDA2E-9743-11D0-A3EE-00A0C9223196")]
+        MediumTransform,
+
+        /// <summary>
+        /// Microphone Array Processor
+        /// </summary>
+        [Description("Microphone Array Processor")]
+        [GuidAttribute("830A44F2-A32D-476B-BE97-42845673B35A")]
+        MicrophoneArrayProcessor,
+        
         /// <summary>
         /// Mixer
         /// </summary>
@@ -364,6 +437,13 @@ namespace WpfUsbMonitor
         [GuidAttribute("AD809C00-7B88-11D0-A5D6-28DB04C10000")]
         Mixer,
 
+        /// <summary>
+        /// Multiplexer
+        /// </summary>
+        [Description("Multiplexer")]
+        [GuidAttribute("7A5DE1D3-01A1-452c-B481-4FA2B96271E8")]
+        Multiplexer,
+        
         /// <summary>
         /// Network
         /// </summary>
@@ -440,5 +520,135 @@ namespace WpfUsbMonitor
         [Description("Synthesizer")]
         [GuidAttribute("DFF220F3-F70F-11D0-B917-00A0C9223196")]
         Synthesizer,
+
+        /// <summary>
+        /// Sys Audio
+        /// </summary>
+        [Description("Sys Audio")]
+        [GuidAttribute("A7C7A5B1-5AF3-11D1-9CED-00A024BF0407")]
+        SysAudio,
+
+        /// <summary>
+        /// Text
+        /// </summary>
+        [Description("Text")]
+        [GuidAttribute("6994AD06-93EF-11D0-A3CC-00A0C9223196")]
+        Text,
+
+        /// <summary>
+        /// Topology
+        /// </summary>
+        [Description("Topology")]
+        [GuidAttribute("DDA54A40-1E4C-11D1-A050-405705C10000")]
+        Topology,
+
+        /// <summary>
+        /// TV Audio
+        /// </summary>
+        [Description("TV Audio")]
+        [GuidAttribute("A799A802-A46D-11D0-A18C-00A02401DCD4")]
+        TVAudio,
+
+        /// <summary>
+        /// TV Tuner
+        /// </summary>
+        [Description("TV Tuner")]
+        [GuidAttribute("A799A800-A46D-11D0-A18C-00A02401DCD4")]
+        TVTuner,
+
+        /// <summary>
+        /// VBI Codec
+        /// </summary>
+        [Description("VBI Codec")]
+        [GuidAttribute("07DAD660-22F1-11D1-A9F4-00C04FBBDE8F")]
+        VBICodec,
+
+        /// <summary>
+        /// Video
+        /// </summary>
+        [Description("Video")]
+        [GuidAttribute("6994AD05-93EF-11D0-A3CC-00A0C9223196")]
+        Video,
+
+        /// <summary>
+        /// Video Camera
+        /// </summary>
+        [Description("Video Camera")]
+        [GuidAttribute("E5323777-F976-4f5b-9B55-B94699C46E44")]
+        VideoCamera,
+
+        /// <summary>
+        /// Virtual
+        /// </summary>
+        [Description("Virtual")]
+        [GuidAttribute("3503EAC4-1F26-11D1-8AB0-00A0C9223196")]
+        Virtual,
+
+        /// <summary>
+        /// Video Multiplexing
+        /// </summary>
+        [Description("Video Multiplexing")]
+        [GuidAttribute("A799A803-A46D-11D0-A18C-00A02401DCD4")]
+        VPMux,
+
+        /// <summary>
+        /// WD Audio
+        /// </summary>
+        [Description("WD Audio")]
+        [GuidAttribute("3E227E76-690D-11D2-8161-0000F8775BF1")]
+        WDAudio,
+
+        #endregion
+
+        #region non official
+
+        /// <summary>
+        /// Windows Portable Devices 2
+        /// </summary>
+        [Description("Windows Portable Devices 2")]
+        [GuidAttribute("F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE")]
+        WPD2,
+
+        /// <summary>
+        /// Microsoft UMBus Root Bus Enumerator generic
+        /// </summary>
+        [Description("Microsoft UMBus Root Bus Enumerator generic")]
+        [GuidAttribute("65a9a6cf-64cd-480b-843e-32c86e1ba19f")]
+        UMBus,
+
+        /// <summary>
+        /// Rendering Control
+        /// </summary>
+        [Description("Rendering Control")]
+        [GuidAttribute("8660e926-ff3d-580c-959e-8b8af44d7cde")]
+        RenderingControl,
+
+        /// <summary>
+        /// Connection Manager
+        /// </summary>
+        [Description("Connection Manager")]
+        [GuidAttribute("ae9eb9c4-8819-51d8-879d-9a42ffb89d4e")]
+        ConnectionManager,
+
+        /// <summary>
+        /// AV Transport
+        /// </summary>
+        [Description("AV Transport")]
+        [GuidAttribute("4c38e836-6a2f-5949-9406-1788ea20d1d5")]
+        AVTransport,
+
+        /// <summary>
+        /// Content Directory
+        /// </summary>
+        [Description("Content Directory")]
+        [GuidAttribute("575d078a-63b9-5bc0-958b-87cc35b279cc")]
+        ContentDirectory,
+
+
+        // ???? unknown 57edcd85-0281-4893-a224-6719f892b1a4 
+
+        #endregion
+
+        
     }
 }
