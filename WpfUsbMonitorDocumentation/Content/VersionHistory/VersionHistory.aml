@@ -5,19 +5,27 @@
 			<para>The topics in this section describe the various changes made to the WPF USB Monitor over the life of the project.</para>
 		</introduction>
 
-		<section>
-			<title>Version History</title>
-			<content>
-				<para>Select a version below to see a description of its changes.</para>
-
-				<list class="bullet">
-					<listItem>
-						<para><link xlink:href="5835eedd-53e3-42a6-8b70-7b85094395ca" /></para>
-					</listItem>
-				</list>
-
-			</content>
-		</section>
+    <section>
+      <title>Version 2.0 beta was released on Sept. 8th, 2018.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>New interface (split of events)</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
+    <section>
+      <title>Version 1.0 was released on Dec. 18th, 2017.</title>
+      <content>
+        <list class="bullet">
+          <listItem>
+            <para>Creation</para>
+          </listItem>
+        </list>
+      </content>
+    </section>
 
 		<relatedTopics>
 			<link xlink:href="ef3e50b7-de80-4612-b398-e61c2faa511f" />
