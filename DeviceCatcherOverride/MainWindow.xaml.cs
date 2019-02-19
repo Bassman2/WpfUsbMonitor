@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Media.Imaging;
-using UsbMonitor;
+﻿using UsbMonitor;
 
 namespace DeviceCatcher
 {
@@ -16,32 +12,32 @@ namespace DeviceCatcher
             InitializeComponent();
         }
 
-        protected override void OnUsbOem(UsbEventOemArgs args)
+        public override void OnUsbOem(UsbEventOemArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }
 
-        protected override void OnUsbVolume(UsbEventVolumeArgs args)
+        public override void OnUsbVolume(UsbEventVolumeArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }
 
-        protected override void OnUsbPort(UsbEventPortArgs args)
+        public override void OnUsbPort(UsbEventPortArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }
 
-        protected override void OnUsbInterface(UsbEventDeviceInterfaceArgs args)
+        public override void OnUsbInterface(UsbEventDeviceInterfaceArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }
 
-        protected override void OnUsbHandle(UsbEventHandleArgs args)
+        public override void OnUsbHandle(UsbEventHandleArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }
 
-        protected override void OnUsbUpdate(UsbEventArgs args)
+        public override void OnUsbChanged(UsbEventArgs args)
         {
             this.textBox.Text += args.ToString() + "\r\n";
         }

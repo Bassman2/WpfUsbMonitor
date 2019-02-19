@@ -1,8 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -11,9 +7,9 @@ namespace UsbMonitor
     /// <summary>
     /// USB Monitor class to notify if the USB content changes
     /// </summary>
-    public partial class UsbMonitorManager 
+    public partial class UsbMonitorManager : IUsbMonitorEvents
     {
-        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -27,6 +23,12 @@ namespace UsbMonitor
             {
                 Start();
             }
+        }
+
+        private IntPtr HwndHandler(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+        {
+            DeviceChangeManager.HwndHandler(this, hwnd, msg, wparam, lparam);
+            return IntPtr.Zero;
         }
     }
 }

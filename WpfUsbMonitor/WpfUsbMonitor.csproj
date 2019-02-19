@@ -72,6 +72,9 @@
     <Compile Include="UsbMonitor\DeviceChangeManager.cs" />
     <Compile Include="UsbMonitor\GuidAttribute.cs" />
     <Compile Include="UsbMonitor\IUsbMonitor.cs" />
+    <Compile Include="UsbMonitor\IUsbMonitorCommands.cs" />
+    <Compile Include="UsbMonitor\IUsbMonitorEvents.cs" />
+    <Compile Include="UsbMonitor\IUsbMonitorOverrides.cs" />
     <Compile Include="UsbMonitor\UsbDeviceChangeEvent.cs" />
     <Compile Include="UsbMonitor\UsbDeviceClass.cs" />
     <Compile Include="UsbMonitor\UsbDeviceInterface.cs" />
