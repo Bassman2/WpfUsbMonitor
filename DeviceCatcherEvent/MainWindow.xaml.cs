@@ -1,5 +1,5 @@
 ﻿using System;
-using WpfUsbMonitor;
+using UsbMonitor;
 
 namespace DeviceCatcher
 {

@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace WpfUsbMonitor
+namespace UsbMonitor
 {
     /// <summary>
     /// USB Monitor window class

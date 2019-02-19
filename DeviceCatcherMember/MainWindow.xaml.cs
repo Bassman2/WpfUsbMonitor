@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using WpfUsbMonitor;
+using UsbMonitor;
 
 namespace DeviceCatcher
 {
@@ -9,13 +9,13 @@ namespace DeviceCatcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UsbMonitor usbMonitor;
+        private UsbMonitorManager usbMonitor;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            this.usbMonitor = new UsbMonitor(this);
+            this.usbMonitor = new UsbMonitorManager(this);
             this.usbMonitor.UsbOem += OnUsb;
             this.usbMonitor.UsbVolume += OnUsb;
             this.usbMonitor.UsbPort += OnUsb;

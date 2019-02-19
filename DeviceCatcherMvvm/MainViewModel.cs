@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Threading;
-using WpfUsbMonitor;
+using UsbMonitor;
 
 namespace DeviceCatcher
 {

@@ -1,0 +1,3 @@
+[submodule "WpfUsbMonitor/UsbMonitor"]
+	path = WpfUsbMonitor/UsbMonitor
+	url = https://github.com/Bassman2/UsbMonitor.git

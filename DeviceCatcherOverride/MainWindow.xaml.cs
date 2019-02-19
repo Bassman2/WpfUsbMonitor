@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using WpfUsbMonitor;
+using UsbMonitor;
 
 namespace DeviceCatcher
 {

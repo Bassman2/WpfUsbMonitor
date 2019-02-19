@@ -7,7 +7,7 @@
     <ProjectGuid>{64F9FA98-B57C-4AE0-9C31-A72F74FC2D51}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WpfUsbMonitor</RootNamespace>
+    <RootNamespace>UsbMonitor</RootNamespace>
     <AssemblyName>WpfUsbMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -54,19 +54,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceChangeManager.cs" />
-    <Compile Include="GuidAttribute.cs" />
-    <Compile Include="UsbDeviceChangeEvent.cs" />
-    <Compile Include="UsbDeviceClass.cs" />
-    <Compile Include="UsbDeviceType.cs" />
-    <Compile Include="UsbEventArgs.cs" />
-    <Compile Include="UsbEventDeviceInterfaceArgs.cs" />
-    <Compile Include="UsbEventHandleArgs.cs" />
-    <Compile Include="UsbEventOemArgs.cs" />
-    <Compile Include="UsbEventPortArgs.cs" />
-    <Compile Include="UsbEventVolumeArgs.cs" />
-    <Compile Include="UsbDeviceInterface.cs" />
-    <Compile Include="UsbMonitor.cs" />
+    <Compile Include="UsbMonitorManager.cs" />
     <Compile Include="UsbMonitorWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -81,6 +69,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UsbMonitor\DeviceChangeManager.cs" />
+    <Compile Include="UsbMonitor\GuidAttribute.cs" />
+    <Compile Include="UsbMonitor\IUsbMonitor.cs" />
+    <Compile Include="UsbMonitor\UsbDeviceChangeEvent.cs" />
+    <Compile Include="UsbMonitor\UsbDeviceClass.cs" />
+    <Compile Include="UsbMonitor\UsbDeviceInterface.cs" />
+    <Compile Include="UsbMonitor\UsbDeviceType.cs" />
+    <Compile Include="UsbMonitor\UsbEventArgs.cs" />
+    <Compile Include="UsbMonitor\UsbEventDeviceInterfaceArgs.cs" />
+    <Compile Include="UsbMonitor\UsbEventHandleArgs.cs" />
+    <Compile Include="UsbMonitor\UsbEventOemArgs.cs" />
+    <Compile Include="UsbMonitor\UsbEventPortArgs.cs" />
+    <Compile Include="UsbMonitor\UsbEventVolumeArgs.cs" />
+    <Compile Include="UsbMonitor\UsbMonitorManager.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -91,6 +93,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
