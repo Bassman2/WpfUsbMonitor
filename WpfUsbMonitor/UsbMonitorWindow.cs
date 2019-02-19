@@ -17,41 +17,91 @@ namespace UsbMonitor
 
         #region IUsbMonitorEvents 
 
+        /// <summary>
+        /// Event for USB OEM
+        /// </summary>
         public event EventHandler<UsbEventOemArgs> UsbOem;
 
+        /// <summary>
+        /// Event for USB Volume
+        /// </summary>
         public event EventHandler<UsbEventVolumeArgs> UsbVolume;
 
+        /// <summary>
+        /// Event for USB Port
+        /// </summary>
         public event EventHandler<UsbEventPortArgs> UsbPort;
 
+        /// <summary>
+        /// Event for USB Device Interface
+        /// </summary>
         public event EventHandler<UsbEventDeviceInterfaceArgs> UsbDeviceInterface;
 
+        /// <summary>
+        /// Event for USB Handle
+        /// </summary>
         public event EventHandler<UsbEventHandleArgs> UsbHandle;
 
         /// <summary>
-        /// Event for USB update
+        /// Event for USB Changed
         /// </summary>
         public event EventHandler<UsbEventArgs> UsbChanged;
 
+        /// <summary>
+        /// Internal call of UsbOem
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void CallUsbOem(object sender, UsbEventOemArgs args)
         {
             this.UsbOem?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Internal call of UsbVolume
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void CallUsbVolumem(object sender, UsbEventVolumeArgs args)
         {
             this.UsbVolume?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Internal call of CallUsbPort
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void CallUsbPort(object sender, UsbEventPortArgs args)
         {
             this.UsbPort?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Internal call of UsbDeviceInterface
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void CallUsbDeviceInterface(object sender, UsbEventDeviceInterfaceArgs args)
         {
             this.UsbDeviceInterface?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Internal call of UsbHandle
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void CallUsbHandle(object sender, UsbEventHandleArgs args)
         {
             this.UsbHandle?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Internal call of UsbChanged
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
         public void CallUsbChanged(object sender, UsbEventArgs args)
         {
             this.UsbChanged?.Invoke(sender, args);
@@ -62,34 +112,51 @@ namespace UsbMonitor
         #region IUsbMonitorOverrides
 
         /// <summary>
-        /// Override to handle USB interface notification.
+        /// Override to handle USB OEM notification.
         /// </summary>
-        /// <param name="args">Update arguments</param>
+        /// <param name="args">OEM arguments</param>
         public virtual void OnUsbOem(UsbEventOemArgs args)
         { }
 
+        /// <summary>
+        /// Override to handle USB Volume notification.
+        /// </summary>
+        /// <param name="args">Volume arguments</param>
         public virtual void OnUsbVolume(UsbEventVolumeArgs args)
         { }
 
+        /// <summary>
+        /// Override to handle USB Port notification.
+        /// </summary>
+        /// <param name="args">Port arguments</param>
         public virtual void OnUsbPort(UsbEventPortArgs args)
         { }
 
+        /// <summary>
+        /// Override to handle USB Interface notification.
+        /// </summary>
+        /// <param name="args">Interface arguments</param>
         public virtual void OnUsbInterface(UsbEventDeviceInterfaceArgs args)
         { }
 
+        /// <summary>
+        /// Override to handle USB Handle notification.
+        /// </summary>
+        /// <param name="args">Handle arguments</param>
         public virtual void OnUsbHandle(UsbEventHandleArgs args)
         { }
 
         /// <summary>
         /// Override to handle USB changed notification.
         /// </summary>
+        /// <param name="args">Changed arguments</param>
         public virtual void OnUsbChanged(UsbEventArgs args)
         { }
 
         #endregion
 
         #region IUsbMonitorCommands
-        
+
         /// <summary>
         /// USB Changed dependency property
         /// </summary>
