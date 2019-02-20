@@ -22,7 +22,6 @@ namespace UsbMonitor
         /// <summary>
         /// Event for USB update
         /// </summary>
-        public event EventHandler<UsbEventArgs> UsbChanged;
 
         public event EventHandler<UsbEventOemArgs> UsbOem;
 
@@ -33,6 +32,8 @@ namespace UsbMonitor
         public event EventHandler<UsbEventDeviceInterfaceArgs> UsbDeviceInterface;
 
         public event EventHandler<UsbEventHandleArgs> UsbHandle;
+
+        public event EventHandler<UsbEventArgs> UsbChanged;
 
         /// <summary>
         /// Event for USB changed
