@@ -42,8 +42,6 @@ namespace UsbMonitor
         /// </summary>
         public event EventHandler<UsbEventHandleArgs> UsbHandle;
 
-        public event EventHandler<UsbEventArgs> UsbChanged;
-
         /// <summary>
         /// Event for USB Changed
         /// </summary>
