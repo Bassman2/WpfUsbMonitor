@@ -42,9 +42,9 @@
       <DocumentationSource sourceFile="..\WpfUsbMonitor\WpfUsbMonitor.csproj" />
     </DocumentationSources>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="(global)" isDocumented="True" xmlns="" />
-      <NamespaceSummaryItem name="WpfUsbMonitor" isDocumented="True" xmlns="">Namespace for WPF USB monitor</NamespaceSummaryItem>
-    </NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="True" />
+<NamespaceSummaryItem name="WpfUsbMonitor" isDocumented="True">Namespace for WPF USB monitor</NamespaceSummaryItem>
+<NamespaceSummaryItem name="UsbMonitor" isDocumented="True" /></NamespaceSummaries>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>

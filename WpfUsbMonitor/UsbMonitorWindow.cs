@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -11,52 +8,156 @@ namespace UsbMonitor
     /// <summary>
     /// USB Monitor window class
     /// </summary>
-    public class UsbMonitorWindow : Window
+    public class UsbMonitorWindow : Window, IUsbMonitorCommands, IUsbMonitorEvents, IUsbMonitorOverrides
     {
-        private const int WM_DEVICECHANGE = 0x0219;
 
         private IntPtr windowHandle;
-        
+
         private DeviceChangeManager deviceChangeManager = new DeviceChangeManager();
 
-        /// <summary>
-        /// Event for USB update
-        /// </summary>
+        #region IUsbMonitorEvents 
 
+        /// <summary>
+        /// Event for USB OEM
+        /// </summary>
         public event EventHandler<UsbEventOemArgs> UsbOem;
 
+        /// <summary>
+        /// Event for USB Volume
+        /// </summary>
         public event EventHandler<UsbEventVolumeArgs> UsbVolume;
 
+        /// <summary>
+        /// Event for USB Port
+        /// </summary>
         public event EventHandler<UsbEventPortArgs> UsbPort;
 
+        /// <summary>
+        /// Event for USB Device Interface
+        /// </summary>
         public event EventHandler<UsbEventDeviceInterfaceArgs> UsbDeviceInterface;
 
+        /// <summary>
+        /// Event for USB Handle
+        /// </summary>
         public event EventHandler<UsbEventHandleArgs> UsbHandle;
 
         public event EventHandler<UsbEventArgs> UsbChanged;
 
         /// <summary>
-        /// Event for USB changed
+        /// Event for USB Changed
         /// </summary>
-        //public event EventHandler UsbChanged;
+        public event EventHandler<UsbEventArgs> UsbChanged;
 
         /// <summary>
-        /// Raises the System.Windows.FrameworkElement.Initialized event. This method is
-        /// invoked whenever System.Windows.FrameworkElement.IsInitialized is set to true internally.
+        /// Internal call of UsbOem
         /// </summary>
-        /// <param name="e">The System.Windows.RoutedEventArgs that contains the event data.</param>
-        protected override void OnInitialized(EventArgs e)
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
+        public void CallUsbOem(object sender, UsbEventOemArgs args)
         {
-            base.OnInitialized(e);
-
-            this.windowHandle = new WindowInteropHelper(this).EnsureHandle();
-            HwndSource.FromHwnd(this.windowHandle)?.AddHook(HwndHandler);
-
-            if (this.UsbNotification)
-            {
-                Start();
-            }
+            this.UsbOem?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Internal call of UsbVolume
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
+        public void CallUsbVolumem(object sender, UsbEventVolumeArgs args)
+        {
+            this.UsbVolume?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// Internal call of CallUsbPort
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
+        public void CallUsbPort(object sender, UsbEventPortArgs args)
+        {
+            this.UsbPort?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// Internal call of UsbDeviceInterface
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
+        public void CallUsbDeviceInterface(object sender, UsbEventDeviceInterfaceArgs args)
+        {
+            this.UsbDeviceInterface?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// Internal call of UsbHandle
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
+        public void CallUsbHandle(object sender, UsbEventHandleArgs args)
+        {
+            this.UsbHandle?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// Internal call of UsbChanged
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="args">Arguments</param>
+        public void CallUsbChanged(object sender, UsbEventArgs args)
+        {
+            this.UsbChanged?.Invoke(sender, args);
+        }
+
+        #endregion
+
+        #region IUsbMonitorOverrides
+
+        /// <summary>
+        /// Override to handle USB OEM notification.
+        /// </summary>
+        /// <param name="args">OEM arguments</param>
+        public virtual void OnUsbOem(UsbEventOemArgs args)
+        { }
+
+        /// <summary>
+        /// Override to handle USB Volume notification.
+        /// </summary>
+        /// <param name="args">Volume arguments</param>
+        public virtual void OnUsbVolume(UsbEventVolumeArgs args)
+        { }
+
+        /// <summary>
+        /// Override to handle USB Port notification.
+        /// </summary>
+        /// <param name="args">Port arguments</param>
+        public virtual void OnUsbPort(UsbEventPortArgs args)
+        { }
+
+        /// <summary>
+        /// Override to handle USB Interface notification.
+        /// </summary>
+        /// <param name="args">Interface arguments</param>
+        public virtual void OnUsbInterface(UsbEventDeviceInterfaceArgs args)
+        { }
+
+        /// <summary>
+        /// Override to handle USB Handle notification.
+        /// </summary>
+        /// <param name="args">Handle arguments</param>
+        public virtual void OnUsbHandle(UsbEventHandleArgs args)
+        { }
+
+        /// <summary>
+        /// Override to handle USB changed notification.
+        /// </summary>
+        /// <param name="args">Changed arguments</param>
+        public virtual void OnUsbChanged(UsbEventArgs args)
+        { }
+
+        #endregion
+
+        #region IUsbMonitorCommands
 
         /// <summary>
         /// USB Changed dependency property
@@ -147,7 +248,9 @@ namespace UsbMonitor
             get { return (ICommand)GetValue(UsbHandleCommandProperty); }
             set { SetValue(UsbHandleCommandProperty, value); }
         }
-        
+
+        #endregion
+
         /// <summary>
         /// USB Notification dependency property
         /// </summary>
@@ -177,34 +280,25 @@ namespace UsbMonitor
             set { SetValue(UsbNotificationProperty, value); }
         }
 
-        /// <summary>
-        /// Override to handle USB interface notification.
-        /// </summary>
-        /// <param name="args">Update arguments</param>
-        protected virtual void OnUsbOem(UsbEventOemArgs args)
-        { }
-
-        protected virtual void OnUsbVolume(UsbEventVolumeArgs args)
-        { }
-
-        protected virtual void OnUsbPort(UsbEventPortArgs args)
-        { }
-
-        protected virtual void OnUsbInterface(UsbEventDeviceInterfaceArgs args)
-        { }
-
-        protected virtual void OnUsbHandle(UsbEventHandleArgs args)
-        { }
-
-        protected virtual void OnUsbUpdate(UsbEventArgs args)
-        { }
+       
 
         /// <summary>
-        /// Override to handle USB changed notification.
+        /// Raises the System.Windows.FrameworkElement.Initialized event. This method is
+        /// invoked whenever System.Windows.FrameworkElement.IsInitialized is set to true internally.
         /// </summary>
-        protected virtual void OnUsbChanged(UsbEventArgs args)
-        { }
+        /// <param name="e">The System.Windows.RoutedEventArgs that contains the event data.</param>
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
 
+            this.windowHandle = new WindowInteropHelper(this).EnsureHandle();
+            HwndSource.FromHwnd(this.windowHandle)?.AddHook(HwndHandler);
+
+            if (this.UsbNotification)
+            {
+                Start();
+            }
+        }
         /// <summary>
         /// Enable USB notification.
         /// </summary>
@@ -223,98 +317,7 @@ namespace UsbMonitor
 
         private IntPtr HwndHandler(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
         {
-            if (msg == WM_DEVICECHANGE)
-            {
-                UsbDeviceChangeEvent deviceChangeEvent = (UsbDeviceChangeEvent)wparam.ToInt32();
-                switch (deviceChangeEvent)
-                {
-                case UsbDeviceChangeEvent.Arrival:
-                case UsbDeviceChangeEvent.QueryRemove:
-                case UsbDeviceChangeEvent.QueryRemoveFailed:
-                case UsbDeviceChangeEvent.RemovePending:
-                case UsbDeviceChangeEvent.RemoveComplete:
-                    UsbDeviceType deviceType = (UsbDeviceType)Marshal.ReadInt32(lparam, 4);
-                    switch (deviceType)
-                    {
-                    case UsbDeviceType.OEM:
-                        var oemArgs = this.deviceChangeManager.OnDeviceOem(deviceChangeEvent, lparam);
-                        // fire event
-                        this.UsbOem?.Invoke(this, oemArgs);
-                        // execute command
-                        if (this.UsbOemCommand?.CanExecute(oemArgs) ?? false)
-                        {
-                            this.UsbOemCommand?.Execute(oemArgs);
-                        }
-                        // call virtual method
-                        OnUsbOem(oemArgs);
-                        break;
-                    case UsbDeviceType.Volume:
-                        var volumeArgs = this.deviceChangeManager.OnDeviceVolume(deviceChangeEvent, lparam);
-                        // fire event
-                        this.UsbVolume?.Invoke(this, volumeArgs);
-                        // execute command
-                        if (this.UsbVolumeCommand?.CanExecute(volumeArgs) ?? false)
-                        {
-                            this.UsbVolumeCommand?.Execute(volumeArgs);
-                        }
-                        // call virtual method
-                        OnUsbVolume(volumeArgs);
-                        break;
-                    case UsbDeviceType.Port:
-                        var portArgs = this.deviceChangeManager.OnDevicePort(deviceChangeEvent, lparam);
-                        // fire event
-                        this.UsbPort?.Invoke(this, portArgs);
-                        // execute command
-                        if (this.UsbPortCommand?.CanExecute(portArgs) ?? false)
-                        {
-                            this.UsbPortCommand?.Execute(portArgs);
-                        }
-                        // call virtual method
-                        OnUsbPort(portArgs);
-                        break;
-                    case UsbDeviceType.DeviceInterface:
-                        var interfaceArgs = this.deviceChangeManager.OnDeviceInterface(deviceChangeEvent, lparam);
-                        // fire event
-                        this.UsbDeviceInterface?.Invoke(this, interfaceArgs);
-                        // execute command
-                        if (this.UsbDeviceInterfaceCommand?.CanExecute(interfaceArgs) ?? false)
-                        {
-                            this.UsbDeviceInterfaceCommand?.Execute(interfaceArgs);
-                        }
-                        // call virtual method
-                        OnUsbInterface(interfaceArgs);
-                        break;
-                    case UsbDeviceType.Handle:
-                        var handleArgs = this.deviceChangeManager.OnDeviceHandle(deviceChangeEvent, lparam);
-                        // fire event
-                        this.UsbHandle?.Invoke(this, handleArgs);
-                        // execute command
-                        if (this.UsbHandleCommand?.CanExecute(handleArgs) ?? false)
-                        {
-                            this.UsbHandleCommand?.Execute(handleArgs);
-                        }
-                        // call virtual method
-                        OnUsbHandle(handleArgs);
-                        break;
-                    default:
-                        break;
-                    }
-                    break;
-                case UsbDeviceChangeEvent.Changed:
-                    var changedArgs = new UsbEventArgs(deviceChangeEvent);
-                    // fire event
-                    this.UsbChanged?.Invoke(this, changedArgs);
-                    // execute command
-                    if (this.UsbChangedCommand?.CanExecute(changedArgs) ?? false)
-                    {
-                        this.UsbChangedCommand?.Execute(changedArgs);
-                    }
-                    // call virtual method
-                    OnUsbChanged(changedArgs);
-                    break;
-                }
-            }
-            handled = false;
+            DeviceChangeManager.HwndHandler(this, hwnd, msg, wparam, lparam);
             return IntPtr.Zero;
         }
 
