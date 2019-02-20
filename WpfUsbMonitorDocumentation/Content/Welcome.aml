@@ -2,13 +2,19 @@
 <topic id="ef3e50b7-de80-4612-b398-e61c2faa511f" revisionNumber="1">
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<introduction>
-			<para>WPF USB Monitor is written in pure WPF. It does not use any Forms library. It can be used in a lot of different ways.</para>
+			<para>
+        WPF USB Monitor is written in pure WPF. It can be used in a lot of different ways. It does not use any Forms library. For Forms please use
+        <externalLink>
+          <linkText>FormsUsbMonitor</linkText>
+          <linkUri>https://www.nuget.org/packages/FormsUsbMonitor/</linkUri>
+        </externalLink>
+        .</para>
 		</introduction>
 
     <section>
       <title>Example: USB Monitor as member</title>
       <content>
-        <para>The UsbMonitor class can be used as a member of your main window.</para>
+        <para>The UsbMonitorManager class can be used as a member of your main window.</para>
         <code language="c#" source="..\DeviceCatcherMember\MainWindow.xaml.cs" title="MainWindow.xaml.cs"/>
       </content>
     </section>

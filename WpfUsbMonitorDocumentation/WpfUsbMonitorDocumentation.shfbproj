@@ -26,7 +26,7 @@
       <Argument Key="logoAlignment" Value="left" xmlns="" />
       <Argument Key="maxVersionParts" Value="" xmlns="" />
     </TransformComponentArguments>
-    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <HelpFileVersion>2.0.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>Standard</SyntaxFilters>
@@ -35,7 +35,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>Guid</NamingMethod>
-    <HelpTitle>WPF USB Monitor Documented</HelpTitle>
+    <HelpTitle>WPF USB Monitor Documentation</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <ComponentConfigurations />
     <DocumentationSources>
@@ -43,8 +43,7 @@
     </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="True" />
-<NamespaceSummaryItem name="WpfUsbMonitor" isDocumented="True">Namespace for WPF USB monitor</NamespaceSummaryItem>
-<NamespaceSummaryItem name="UsbMonitor" isDocumented="True" /></NamespaceSummaries>
+<NamespaceSummaryItem name="UsbMonitor" isDocumented="True">Namespace for WPF USB monitor</NamespaceSummaryItem></NamespaceSummaries>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
