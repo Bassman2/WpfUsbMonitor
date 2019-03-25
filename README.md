@@ -1,5 +1,4 @@
-# WpfUsbMonitor
-WPF USB Monitor to detect if a USB device is plugged in or out
+# Moved to https://github.com/Bassman2/UsbMonitor
 
 ## Donate
 
